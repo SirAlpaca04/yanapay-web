@@ -76,6 +76,7 @@
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 mt-2">
+                        <!-- Recuerda colocar aquí los enlaces hacia GitHub o Google Drive -->
                         <a href="#" class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 rounded-lg font-bold transition shadow-lg shadow-blue-600/20 text-sm">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             Descargar Taller 1 (Educación)
@@ -102,7 +103,7 @@
                 
                 <div class="inline-block bg-blue-900/30 border border-blue-500/30 rounded-xl px-6 py-4 shadow-lg backdrop-blur-sm">
                     <p class="text-blue-200 text-lg md:text-xl font-medium flex flex-col sm:flex-row items-center gap-2 sm:gap-4 justify-center">
-                        <span class="text-white font-bold tracking-wide"><svg class="w-6 h-6 inline-block mr-1 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Inversión:</span> 
+                        <span class="text-white font-bold tracking-wide"><svg class="w-6 h-6 inline-block mr-1 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Inversión:</span> 
                         <span>S/ 50.00 <span class="text-sm text-slate-400 uppercase tracking-wider">/hora (Individual)</span></span>
                         <span class="hidden sm:inline-block text-slate-600">|</span>
                         <span>S/ 35.00 <span class="text-sm text-slate-400 uppercase tracking-wider">/hora (Grupal)</span></span>
@@ -129,7 +130,7 @@
 
                 <div class="bg-slate-950 p-8 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-all group flex flex-col h-full">
                     <div class="w-14 h-14 bg-purple-900/30 border border-purple-800/50 rounded-xl flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477-4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-3">IA Avanzada para Investigación Científica y Tesis</h3>
                     <p class="text-slate-400 text-sm leading-relaxed flex-grow">Construye un ecosistema de investigación blindado. Aprende a usar Consensus, Perplexity y NotebookLM para marcos teóricos sin alucinaciones académicas.</p>
@@ -167,11 +168,18 @@
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-2">Modalidad de Clase</label>
+                        <div class="flex justify-between items-end mb-2">
+                            <label class="block text-sm font-medium text-slate-400">Modalidad de Clase</label>
+                            <span class="text-xs text-blue-400 font-semibold bg-blue-900/30 px-2 py-0.5 rounded border border-blue-800/50">Recomendado: Individual</span>
+                        </div>
                         <select name="modalidad" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition appearance-none">
                             <option value="Individual">Modalidad Individual (S/ 50.00 / hora)</option>
                             <option value="Grupal">Modalidad Grupal (S/ 35.00 / hora)</option>
                         </select>
+                        <p class="text-xs text-slate-500 mt-2 flex items-start gap-1.5">
+                            <svg class="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Nota: La modalidad grupal ingresa a una lista de espera y se apertura al completar el cupo mínimo de alumnos.
+                        </p>
                     </div>
 
                     <div>
