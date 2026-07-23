@@ -9,25 +9,26 @@
   <!-- Estilos oficiales de n8n chat -->
   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   
-  <!-- ESTILOS CSS PERSONALIZADOS PARA FORZAR MODO OSCURO EN N8N CHAT -->
   <style>
     :root {
-      --n8n-chat-primary-color: #38bdf8;
-      --n8n-chat-background-color: #000000;
+      --n8n-chat-primary-color: #38bdf8; /* Sky-500 */
+      --n8n-chat-background-color: #000000; /* Fondo negro total */
       --n8n-chat-bot-bubble-background-color: #18181b; /* Zinc-900 */
-      --n8n-chat-bot-bubble-text-color: #f4f4f5; /* Zinc-100 */
+      --n8n-chat-bot-bubble-text-color: #f4f4f5;
       --n8n-chat-user-bubble-background-color: #3f3f46; /* Zinc-700 */
       --n8n-chat-user-bubble-text-color: #fafafa;
       --n8n-chat-font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --n8n-chat-text-size: 0.875rem;
     }
 
-    /* Forzar contenedor principal y anular blancos de n8n */
+    /* Forzar contenedor principal */
     .n8n-chat {
       border: 1px solid #27272a !important;
       border-radius: 1rem !important;
       background-color: #000000 !important;
     }
+
+    /* Cabecera */
     .n8n-chat-header {
       background-color: #000000 !important;
       border-bottom: 1px solid #27272a !important;
@@ -36,16 +37,25 @@
     .n8n-chat-header h2, .n8n-chat-header p, .n8n-chat-header span {
       color: #fafafa !important;
     }
-    /* Eliminar el bloque blanco superior de bienvenida o cabecera interna de n8n */
-    .n8n-chat-welcome-screen, div[class*="welcome"], section[class*="welcome"] {
-      background-color: #09090b !important; /* Zinc-950 */
+
+    /* El bloque azul de bienvenida/más reciente: ¡Aquí estaba el problema! */
+    .n8n-chat-welcome-screen, 
+    div[class*="welcome-screen"], 
+    section[class*="welcome-screen"] {
+      background-color: #000000 !important; /* Forzar negro total */
       color: #f4f4f5 !important;
     }
-    /* Cuerpo del chat donde van los mensajes */
-    .n8n-chat-body, .n8n-chat-messages {
+    /* Ocultar el subtítulo por defecto que usa n8n en bienvenida */
+    .n8n-chat-welcome-subtitle {
+        display: none !important;
+    }
+
+    /* Cuerpo del chat y mensajes */
+    .n8n-chat-body, .n8n-chat-messages, div[class*="messages-container"] {
       background-color: #000000 !important;
     }
-    /* Cajas de mensajes individuales */
+
+    /* Burbujas de chat */
     .n8n-chat-message-bot {
       background-color: #18181b !important;
       color: #f4f4f5 !important;
@@ -55,6 +65,7 @@
       background-color: #3f3f46 !important;
       color: #fafafa !important;
     }
+
     /* Footer e input de texto */
     .n8n-chat-footer {
       background-color: #000000 !important;
@@ -69,17 +80,23 @@
     .n8n-chat-input::placeholder {
       color: #71717a !important;
     }
+
+    /* Botón de enviar */
     .n8n-chat-send-button {
       background-color: transparent !important;
       color: #38bdf8 !important;
     }
+
+    /* Avatar del bot minimalista */
     .n8n-chat-avatar-bot {
       background-color: #27272a !important;
       color: #38bdf8 !important;
       border-radius: 999px !important;
     }
+
+    /* Ocultar subtítulo de cabecera para ganar espacio */
     .n8n-chat-header-subtitle {
-      display: none !important;
+        display: none !important;
     }
   </style>
 </head>
