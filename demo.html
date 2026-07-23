@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meditipps | Asistente y Generador Visual</title>
+  <title>Meditipps | Campus Digital & IA</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Estilos oficiales de n8n chat -->
   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   
-  <!-- ESTILOS CSS PERSONALIZADOS: ESTILO GEMINI LIGHT (CLARO Y PROFESIONAL) -->
+  <!-- ESTILOS CSS PERSONALIZADOS: ESTILO GEMINI LIGHT -->
   <style>
     :root {
       --n8n-chat-primary-color: #0284c7; /* Sky-600 */
@@ -23,13 +23,12 @@
     }
 
     body {
-      background-color: #f1f5f9 !important; /* Slate-100 general */
+      background-color: #f1f5f9 !important;
       color: #0f172a !important;
     }
 
-    /* Contenedor principal de n8n adaptado a claro */
     .n8n-chat {
-      border: 1px solid #cbd5e1 !important; /* Slate-300 */
+      border: 1px solid #cbd5e1 !important;
       border-radius: 1.25rem !important;
       background-color: #f8fafc !important;
       box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05) !important;
@@ -44,7 +43,6 @@
       color: #0f172a !important;
     }
 
-    /* OCULTAR COMPLETAMENTE CUALQUIER PANTALLA DE BIENVENIDA RESIDUAL DE N8N */
     .n8n-chat-welcome-screen, 
     div[class*="welcome"], 
     section[class*="welcome"],
@@ -56,7 +54,6 @@
       background-color: #f8fafc !important;
     }
 
-    /* Burbujas */
     .n8n-chat-message-bot {
       background-color: #ffffff !important;
       color: #0f172a !important;
@@ -68,7 +65,6 @@
       color: #ffffff !important;
     }
 
-    /* Footer e input */
     .n8n-chat-footer {
       background-color: #ffffff !important;
       border-top: 1px solid #e2e8f0 !important;
@@ -96,7 +92,62 @@
     }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4 font-sans selection:bg-sky-500/20 selection:text-sky-900">
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4 font-sans selection:bg-sky-500/20 selection:text-sky-900 relative">
+
+  <!-- PANTALLA DE LOGIN (MODAL / OVERLAY INICIAL) -->
+  <div id="login-overlay" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-2xl w-full max-w-md p-8 flex flex-col items-center space-y-6">
+      
+      <!-- Logo o Título de la Academia -->
+      <div class="text-center space-y-1">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 mb-2 font-bold text-xl shadow-inner">
+          M
+        </div>
+        <h2 class="text-xl font-bold text-slate-900">Acceso a Meditipps</h2>
+        <p class="text-xs text-slate-500">Campus Digital y Asistente Académico IA</p>
+      </div>
+
+      <!-- Formulario de Ingreso -->
+      <form id="login-form" class="w-full space-y-4">
+        <div>
+          <label for="username" class="block text-xs font-medium text-slate-700 mb-1.5">Usuario o Código de Alumno:</label>
+          <input 
+            type="text" 
+            id="username" 
+            placeholder="Ej. meditipps_alumno"
+            class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all"
+            required
+          >
+        </div>
+
+        <div>
+          <label for="password" class="block text-xs font-medium text-slate-700 mb-1.5">Contraseña:</label>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="••••••••"
+            class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all"
+            required
+          >
+        </div>
+
+        <div id="login-error" class="hidden text-xs text-red-600 bg-red-50 border border-red-200 p-2.5 rounded-lg text-center font-medium">
+          Usuario o contraseña incorrectos.
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 px-6 rounded-xl font-semibold text-sm transition-all shadow-md hover:shadow-sky-500/10 flex items-center justify-center gap-2"
+        >
+          Ingresar al Campus
+        </button>
+      </form>
+
+      <div class="text-[11px] text-slate-400 text-center">
+        Acceso exclusivo para estudiantes y docentes matriculados en Meditipps.
+      </div>
+    </div>
+  </div>
 
   <!-- Contenedor General en Grid (2 Columnas: Chat + Panel de Imágenes) -->
   <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-6 h-[85vh]">
@@ -109,7 +160,10 @@
           <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse shadow-sm"></div>
           <h1 class="font-semibold text-base text-slate-900">Asistente IA - Meditipps</h1>
         </div>
-        <span class="text-xs text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200 font-medium tracking-wide">PRO</span>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200 font-medium tracking-wide">PRO</span>
+          <button id="logout-btn" title="Cerrar Sesión" class="text-xs text-slate-500 hover:text-red-600 bg-slate-100 hover:bg-red-50 px-2.5 py-1 rounded-full border border-slate-200 transition-colors">Salir</button>
+        </div>
       </div>
       <!-- Contenedor del Chat Embebido -->
       <div id="n8n-chat-container" class="flex-1 w-full h-full relative overflow-hidden bg-slate-50"></div>
@@ -191,27 +245,70 @@
 
   </div>
 
-  <!-- Script Principal: Chat de n8n con showWelcomeScreen en false -->
+  <!-- Script Principal: Autenticación + n8n Chat + Generador Visual -->
   <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    createChat({
-      webhookUrl: 'https://n8n.yanapay-labs.com/webhook/chat-meditipps',
-      target: '#n8n-chat-container',
-      mode: 'fullscreen',
-      showWelcomeScreen: false, // <-- Esto desactiva el bloque "Hi there!" por completo
-      initialMessages: [
-        '¡Hola! Soy el Asistente Inteligente Oficial de Meditipps. ¿En qué consulta médica o académica te puedo ayudar hoy?'
-      ],
-      i18n: {
-        es: {
-          title: 'Asistente Meditipps',
-          subtitle: 'RAG Institucional Activo',
-          placeholder: 'Escribe tu pregunta aquí...',
-        }
+    // Referencias de Login
+    const loginOverlay = document.getElementById('login-overlay');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // Credenciales institucionales de ejemplo (puedes cambiarlas o conectarlas a un backend en n8n más adelante)
+    const VALID_USER = "meditipps";
+    const VALID_PASS = "campus2026";
+
+    // Verificar si ya hay una sesión activa en el navegador
+    if (localStorage.getItem('meditipps_auth') === 'true') {
+      loginOverlay.classList.add('hidden');
+      initApp();
+    }
+
+    // Manejar envío del formulario de login
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+
+      if (user === VALID_USER && pass === VALID_PASS) {
+        localStorage.setItem('meditipps_auth', 'true');
+        loginOverlay.classList.add('hidden');
+        loginError.classList.add('hidden');
+        initApp();
+      } else {
+        loginError.classList.remove('hidden');
       }
     });
 
+    // Manejar cierre de sesión
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('meditipps_auth');
+      location.reload();
+    });
+
+    // Función que inicializa los componentes de la app una vez autenticado
+    function initApp() {
+      // Inicializar Chat Nativo de n8n
+      createChat({
+        webhookUrl: 'https://n8n.yanapay-labs.com/webhook/chat-meditipps',
+        target: '#n8n-chat-container',
+        mode: 'fullscreen',
+        showWelcomeScreen: false,
+        initialMessages: [
+          '¡Hola! Soy el Asistente Inteligente Oficial de Meditipps. ¿En qué consulta médica o académica te puedo ayudar hoy?'
+        ],
+        i18n: {
+          es: {
+            title: 'Asistente Meditipps',
+            subtitle: 'RAG Institucional Activo',
+            placeholder: 'Escribe tu pregunta aquí...',
+          }
+        }
+      });
+    }
+
+    // Lógica del Panel Lateral de Imágenes
     const imageForm = document.getElementById('image-form');
     const imagePromptInput = document.getElementById('image-prompt');
     const imageSubmitBtn = document.getElementById('image-submit-btn');
