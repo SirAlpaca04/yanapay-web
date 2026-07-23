@@ -67,7 +67,7 @@
 
   <!-- Lógica de Conexión JavaScript -->
   <script>
-    const WEBHOOK_URL = 'https://TU-SERVIDOR-N8N/webhook/chat-meditipps'; // 👈 REEMPLAZA CON TU WEBHOOK ACTIVO
+    const WEBHOOK_URL = 'https://n8n.yanapay-labs.com/webhook/chat-meditipps';
 
     // Gestión de Sesión Única por Navegador
     let sessionId = localStorage.getItem('yanapay_session_id');
@@ -96,7 +96,7 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
       try {
-        // 2. Petición POST directa al Webhook de n8n
+        // 2. Petición POST directa al Webhook de producción de n8n
         const response = await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: {
@@ -112,7 +112,7 @@
 
         const data = await response.json();
         
-        // Extraer respuesta limpia de n8n (soporta tanto {output: "..."} como texto plano directo)
+        // Extraer respuesta limpia de n8n
         const botReply = data.output || data.response || JSON.stringify(data);
 
         // 3. Mostrar respuesta del Bot con Markdown renderizado
