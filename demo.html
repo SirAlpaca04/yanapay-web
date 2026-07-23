@@ -9,26 +9,29 @@
   <!-- Estilos oficiales de n8n chat -->
   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   
+  <!-- ESTILOS CSS REFORZADOS PARA EL MODO OSCURO -->
   <style>
     :root {
-      --n8n-chat-primary-color: #38bdf8; /* Sky-500 */
-      --n8n-chat-background-color: #000000; /* Fondo negro total */
-      --n8n-chat-bot-bubble-background-color: #18181b; /* Zinc-900 */
+      --n8n-chat-primary-color: #38bdf8;
+      --n8n-chat-background-color: #000000;
+      --n8n-chat-bot-bubble-background-color: #18181b;
       --n8n-chat-bot-bubble-text-color: #f4f4f5;
-      --n8n-chat-user-bubble-background-color: #3f3f46; /* Zinc-700 */
+      --n8n-chat-user-bubble-background-color: #3f3f46;
       --n8n-chat-user-bubble-text-color: #fafafa;
       --n8n-chat-font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --n8n-chat-text-size: 0.875rem;
     }
 
-    /* Forzar contenedor principal */
+    body {
+      background-color: #000000 !important;
+    }
+
+    /* Forzar contenedor principal y anular blancos/azules de n8n */
     .n8n-chat {
       border: 1px solid #27272a !important;
       border-radius: 1rem !important;
       background-color: #000000 !important;
     }
-
-    /* Cabecera */
     .n8n-chat-header {
       background-color: #000000 !important;
       border-bottom: 1px solid #27272a !important;
@@ -38,24 +41,12 @@
       color: #fafafa !important;
     }
 
-    /* El bloque azul de bienvenida/más reciente: ¡Aquí estaba el problema! */
-    .n8n-chat-welcome-screen, 
-    div[class*="welcome-screen"], 
-    section[class*="welcome-screen"] {
-      background-color: #000000 !important; /* Forzar negro total */
-      color: #f4f4f5 !important;
-    }
-    /* Ocultar el subtítulo por defecto que usa n8n en bienvenida */
-    .n8n-chat-welcome-subtitle {
-        display: none !important;
+    /* Forzar fondo negro en cualquier contenedor interno de n8n */
+    #n8n-chat-container *, .n8n-chat * {
+      color-scheme: dark;
     }
 
-    /* Cuerpo del chat y mensajes */
-    .n8n-chat-body, .n8n-chat-messages, div[class*="messages-container"] {
-      background-color: #000000 !important;
-    }
-
-    /* Burbujas de chat */
+    /* Cajas de mensajes individuales */
     .n8n-chat-message-bot {
       background-color: #18181b !important;
       color: #f4f4f5 !important;
@@ -71,7 +62,7 @@
       background-color: #000000 !important;
       border-top: 1px solid #27272a !important;
     }
-    .n8n-chat-input, input[class*="input"], textarea[class*="input"] {
+    .n8n-chat-input, input, textarea {
       background-color: #18181b !important;
       border: 1px solid #3f3f46 !important;
       color: #fafafa !important;
@@ -80,23 +71,17 @@
     .n8n-chat-input::placeholder {
       color: #71717a !important;
     }
-
-    /* Botón de enviar */
     .n8n-chat-send-button {
       background-color: transparent !important;
       color: #38bdf8 !important;
     }
-
-    /* Avatar del bot minimalista */
     .n8n-chat-avatar-bot {
       background-color: #27272a !important;
       color: #38bdf8 !important;
       border-radius: 999px !important;
     }
-
-    /* Ocultar subtítulo de cabecera para ganar espacio */
     .n8n-chat-header-subtitle {
-        display: none !important;
+      display: none !important;
     }
   </style>
 </head>
@@ -195,7 +180,7 @@
 
   </div>
 
-  <!-- Script Principal: Chat de n8n + Lógica del Generador de Imágenes -->
+  <!-- Script Principal: Chat de n8n + Limpiador dinámico de elementos internos -->
   <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
@@ -216,6 +201,21 @@
       }
     });
 
+    // Script de observación para asegurar que cualquier elemento azul/blanco interno de n8n se pinte de negro
+    const observer = new MutationObserver(() => {
+      const n8nElements = document.querySelectorAll('#n8n-chat-container *');
+      n8nElements.forEach(el => {
+        const bg = window.getComputedStyle(el).backgroundColor;
+        if (bg === 'rgb(255, 255, 255)' || bg === 'rgb(24, 24, 27)' || bg.includes('238, 242') || el.classList.toString().includes('welcome')) {
+          if (el.tagName === 'SECTION' || el.tagName === 'DIV' && !el.classList.contains('n8n-chat-message-bot')) {
+            el.style.backgroundColor = '#000000';
+          }
+        }
+      });
+    });
+    observer.observe(document.getElementById('n8n-chat-container'), { childList: true, subtree: true });
+
+    // Lógica del Panel Lateral de Imágenes
     const imageForm = document.getElementById('image-form');
     const imagePromptInput = document.getElementById('image-prompt');
     const imageSubmitBtn = document.getElementById('image-submit-btn');
