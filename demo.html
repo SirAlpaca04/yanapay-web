@@ -85,8 +85,8 @@
           <!-- Imagen Final Resultante (Oculta hasta recibir respuesta) -->
           <div id="image-result-container" class="hidden w-full h-full flex flex-col items-center justify-center">
             <img id="generated-image" src="" alt="Gráfico Médico" class="max-h-[200px] rounded-lg object-contain shadow-md mb-2">
-            <!-- Botón interactivo para descarga directa en alta resolución -->
-            <button id="open-high-res" class="text-[10px] text-sky-400 hover:underline bg-transparent border-none cursor-pointer p-0">Abrir / Descargar en alta resolución</button>
+            <!-- Texto modificado para indicación de clic derecho -->
+            <span class="text-[10px] text-slate-400 text-center leading-tight">Haz clic derecho y presiona <strong class="text-sky-400">abrir en una nueva ventana</strong> para más resolución</span>
           </div>
         </div>
 
@@ -125,10 +125,6 @@
     const imagePlaceholder = document.getElementById('image-placeholder');
     const imageResultContainer = document.getElementById('image-result-container');
     const generatedImage = document.getElementById('generated-image');
-    const openHighResBtn = document.getElementById('open-high-res');
-
-    let currentBase64Url = '';
-    let currentObjectUrl = '';
 
     imageForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -156,23 +152,7 @@
         const imageUrl = data.imageUrl || data.output || data.url;
 
         if (imageUrl) {
-          currentBase64Url = imageUrl;
-
-          // Convertir Base64 a Blob URL para renderizar limpio en el contenedor
-          const arr = imageUrl.split(',');
-          const mime = arr[0].match(/:(.*?);/)[1];
-          const bstr = atob(arr[1]);
-          let n = bstr.length;
-          const u8arr = new Uint8Array(n);
-          while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-          }
-          const blob = new Blob([u8arr], { type: mime });
-
-          if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
-          currentObjectUrl = URL.createObjectURL(blob);
-
-          generatedImage.src = currentObjectUrl;
+          generatedImage.src = imageUrl;
           imageResultContainer.classList.remove('hidden');
         } else {
           throw new Error('No se recibió una URL válida.');
@@ -186,23 +166,6 @@
         imagePromptInput.disabled = false;
         imageSubmitBtn.disabled = false;
         imageLoader.classList.add('hidden');
-      }
-    });
-
-    // Manejo robusto: Descarga directa del archivo de imagen optimizada
-    openHighResBtn.addEventListener('click', () => {
-      if (!currentBase64Url) return;
-
-      try {
-        const link = document.createElement('a');
-        link.href = currentBase64Url;
-        link.download = `meditipps-grafico-${Date.now()}.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (err) {
-        console.error('Error al descargar la imagen:', err);
-        alert('⚠️ No se pudo descargar la imagen.');
       }
     });
   </script>
