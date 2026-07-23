@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Chat IA - Meditipps</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css">
+  <style>
+    /* Personalización visual con la paleta de colores de la demo */
+    :root {
+      --chat--color-primary: #0284c7;
+      --chat--color-primary-shade-50: #0369a1;
+      --chat--color-background: #ffffff;
+      --chat--window--height: 100%;
+      --chat--header--background: #0284c7;
+      --chat--message--user--background: #0284c7;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col justify-center items-center p-4">
+
+  <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+    <div class="p-4 bg-slate-800 text-white text-center">
+      <h1 class="text-xl font-bold">Entorno de Prueba - RAG Meditipps</h1>
+      <p class="text-xs text-slate-300">Conectado a n8n + PostgreSQL + Cohere + Qwen 2.5 72B</p>
+    </div>
+    
+    <!-- Caja del Chat -->
+    <div id="chat-container" class="w-full h-[650px]"></div>
+  </div>
+
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    let sessionId = localStorage.getItem('meditipps_session');
+    if (!sessionId) {
+      sessionId = 'sess_' + Math.random().toString(36).substring(2, 9);
+      localStorage.setItem('meditipps_session', sessionId);
+    }
+
+    createChat({
+      webhookUrl: 'https://n8n.yanapay-labs.com/webhook/chat-meditipps', // 👈 REEMPLAZAR AQUÍ
+      target: '#chat-container',
+      mode: 'fullscreen',
+      showWelcomeMessage: true,
+      defaultLanguage: 'es',
+      initialMessages: [
+        '¡Hola! Soy la IA de Meditipps. Hazme cualquier pregunta basada en los documentos institucionales.'
+      ],
+      i18n: {
+        es: {
+          title: 'Asistente Meditipps',
+          subtitle: 'Demo RAG en tiempo real',
+          inputPlaceholder: 'Escribe tu consulta...',
+        },
+      },
+      metadata: {
+        sessionId: sessionId
+      }
+    });
+  </script>
+</body>
+</html>
