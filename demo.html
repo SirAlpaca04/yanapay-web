@@ -85,7 +85,7 @@
           <!-- Imagen Final Resultante (Oculta hasta recibir respuesta) -->
           <div id="image-result-container" class="hidden w-full h-full flex flex-col items-center justify-center">
             <img id="generated-image" src="" alt="Gráfico Médico" class="max-h-[200px] rounded-lg object-contain shadow-md mb-2">
-            <!-- Botón seguro para abrir la imagen Base64 sin bloqueos -->
+            <!-- Botón interactivo seguro -->
             <button id="open-high-res" class="text-[10px] text-sky-400 hover:underline bg-transparent border-none cursor-pointer p-0">Abrir en alta resolución</button>
           </div>
         </div>
@@ -127,7 +127,7 @@
     const generatedImage = document.getElementById('generated-image');
     const openHighResBtn = document.getElementById('open-high-res');
 
-    let currentBase64Url = ''; // Variable global para almacenar el Data URI de la imagen
+    let currentBase64Url = '';
 
     imageForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -155,7 +155,7 @@
         const imageUrl = data.imageUrl || data.output || data.url;
 
         if (imageUrl) {
-          currentBase64Url = imageUrl; // Guardamos la cadena completa
+          currentBase64Url = imageUrl;
           generatedImage.src = imageUrl;
           imageResultContainer.classList.remove('hidden');
         } else {
@@ -173,21 +173,30 @@
       }
     });
 
-    // Manejo seguro del visor en alta resolución para evitar "about:blank#blocked"
+    // Manejo seguro del visor en alta resolución mediante Blob Binario
     openHighResBtn.addEventListener('click', () => {
       if (!currentBase64Url) return;
-      const newWindow = window.open();
-      if (newWindow) {
-        newWindow.document.write(`
-          <html>
-            <head><title>Gráfico en Alta Resolución - Meditipps</title></head>
-            <body style="margin:0; background:#0f172a; display:flex; justify-content:center; align-items:center; height:100vh;">
-              <img src="${currentBase64Url}" style="max-width:100%; max-height:100%; object-fit:contain; border-radius:8px;" />
-            </body>
-          </html>
-        `);
-      } else {
-        alert('⚠️ El navegador bloqueó la ventana emergente. Permite las pestañas emergentes para este sitio.');
+
+      try {
+        const arr = currentBase64Url.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        const blob = new Blob([u8arr], { type: mime });
+        const blobUrl = URL.createObjectURL(blob);
+
+        const newWindow = window.open(blobUrl, '_blank');
+        if (!newWindow) {
+          alert('⚠️ El navegador bloqueó la ventana emergente. Permite las pestañas emergentes para este sitio.');
+        }
+      } catch (err) {
+        console.error('Error al procesar la imagen en alta resolución:', err);
+        alert('⚠️ No se pudo renderizar la imagen en alta resolución.');
       }
     });
   </script>
