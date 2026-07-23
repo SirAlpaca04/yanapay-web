@@ -6,7 +6,7 @@
   <title>Asistente IA - Yanapay Labs</title>
   <!-- Tailwind CSS para un diseño limpio y moderno -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Estilos para el chat nativo de n8n o contenedor embebido -->
+  <!-- Estilos oficiales para el chat nativo de n8n -->
   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
@@ -23,13 +23,13 @@
       <span class="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">RAG Activo</span>
     </div>
 
-    <!-- Contenedor del Chat Nativo de n8n -->
+    <!-- Contenedor Dinámico del Chat Nativo de n8n -->
     <div id="n8n-chat-container" class="flex-1 w-full h-full relative overflow-hidden bg-slate-800"></div>
 
   </div>
 
-  <!-- Script del Chat Nativo de n8n -->
-  <type="module">
+  <!-- Script Oficial del Chat Nativo de n8n -->
+  <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
     createChat({
